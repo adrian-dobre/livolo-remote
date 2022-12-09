@@ -4,7 +4,7 @@
  Thanks kranjec.primoz@gmail.com for the research done on his blog https://neofoxx.com/post-4.html, kind3r@gmail.com for the keycodes (https://github.com/kind3r/livolo-rf-codes), Sergey Chernov for the initial Livolo lib (https://forum.arduino.cc/t/control-livolo-switches-livolo-switch-library/149850) and to all the awesome people that gathered various info here https://community.home-assistant.io/t/broadlink-rm-pro-livolo-switches-rf-learning-woes/12432 and here https://forum.arduino.cc/t/control-livolo-switches-livolo-switch-library/149850
 
 ## How to use it
-The easiest way is to check the (blink example)[./examples/blink.ino]
+The easiest way is to check the [blink example](./examples/blink.ino)
 Basically you need to init the library with the output pin 
 ```
 LivoloRemote livoloRemote(4);
