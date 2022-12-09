@@ -1,11 +1,13 @@
 /**
  * @file LivoloRemote.h
  * @author Adrian Dobre (adi.dobre90@gmail.com)
- * @brief Remote Library (TX only) for Livolo RF switches.
+ * @brief Livolo Remote Library (TX only) for Livolo RF switches.
  * Thanks kranjec.primoz@gmail.com for the research done on his blog
  * https://neofoxx.com/post-4.html, kind3r@gmail.com for the keycodes
- * (https://github.com/kind3r/livolo-rf-codes) and to all the people that
- * gathered various info here
+ * (https://github.com/kind3r/livolo-rf-codes), Sergey Chernov for the initial
+ * Livolo lib
+ * (https://forum.arduino.cc/t/control-livolo-switches-livolo-switch-library/149850)
+ * and to all the people that gathered various info here
  * https://community.home-assistant.io/t/broadlink-rm-pro-livolo-switches-rf-learning-woes/12432
  * and here
  * https://forum.arduino.cc/t/control-livolo-switches-livolo-switch-library/149850
@@ -35,7 +37,7 @@ class LivoloRemote {
     unsigned int encodedSequence[100];
     unsigned int encodedSequenceLength = 0;
     void encode(unsigned int bit, bool preamble = false);
-    void appentToSequence(unsigned int bit, unsigned int pulseLength);
+    void appendToSequence(unsigned int bit, unsigned int pulseLength);
     void transmit();
     void toggleOutput();
 };

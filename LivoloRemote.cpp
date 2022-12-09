@@ -43,12 +43,12 @@ void LivoloRemote::encode(unsigned int bit, bool preamble) {
         repeats = 1;
     }
     for (int i = 0; i <= repeats; i++) {
-        LivoloRemote::appentToSequence(LivoloRemote::output, pulseLength);
+        LivoloRemote::appendToSequence(LivoloRemote::output, pulseLength);
         LivoloRemote::toggleOutput();
     }
 }
 
-void LivoloRemote::appentToSequence(unsigned int bit,
+void LivoloRemote::appendToSequence(unsigned int bit,
                                     unsigned int pulseLength) {
     LivoloRemote::encodedSequence[LivoloRemote::encodedSequenceLength] = bit;
     LivoloRemote::encodedSequence[LivoloRemote::encodedSequenceLength + 1] =
