@@ -1,69 +1,67 @@
 
 #include "LivoloRemote.h"
 
-LivoloRemote::LivoloRemote(unsigned int pin) {
+LivoloRemote::LivoloRemote(byte pin) {
     pinMode(pin, OUTPUT);
     LivoloRemote::pin = pin;
 }
 
-void LivoloRemote::send(unsigned int remoteId, unsigned int keyCode,
-                        unsigned int repeats) {
-    LivoloRemote::encodedSequenceLength = 0;
-    LivoloRemote::output = HIGH;
+void LivoloRemote::send(unsigned short int remoteId, byte keyCode,
+                        byte repeats) {
+    LivoloRemote::bitStreamLength = 0;
+    LivoloRemote::outputBit = HIGH;
     LivoloRemote::encode(1, true);
 
-    for (int i = 15; i >= 0; i--) {
-        LivoloRemote::encode(bitRead(remoteId, i));
+    for (byte i = 16; i > 0; i--) {
+        LivoloRemote::encode(bitRead(remoteId, i - 1));
     }
 
-    for (int i = 6; i >= 0; i--) {
-        LivoloRemote::encode(bitRead(keyCode, i));
+    for (byte i = 7; i > 0; i--) {
+        LivoloRemote::encode(bitRead(keyCode, i - 1));
     }
 
-    for (int i = 0; i <= repeats; i++) {
+    for (byte i = 0; i <= repeats; i++) {
         LivoloRemote::transmit();
     }
 }
 void LivoloRemote::toggleOutput() {
-    if (LivoloRemote::output == HIGH) {
-        LivoloRemote::output = LOW;
+    if (LivoloRemote::outputBit == HIGH) {
+        LivoloRemote::outputBit = LOW;
     } else {
-        LivoloRemote::output = HIGH;
+        LivoloRemote::outputBit = HIGH;
     }
 }
 
-void LivoloRemote::encode(unsigned int bit, bool preamble) {
-    int pulseLength = shortLength;
+void LivoloRemote::encode(byte bit, bool preamble) {
+    int pulseLength = shortPulse;
     int repeats = 0;
     if (preamble) {
-        pulseLength = preambleLength;
+        pulseLength = preamblePulse;
     } else if (bit == 1) {
-        pulseLength = longLength;
+        pulseLength = longPulse;
     } else {
         repeats = 1;
     }
-    for (int i = 0; i <= repeats; i++) {
-        LivoloRemote::appendToSequence(LivoloRemote::output, pulseLength);
+    for (byte i = 0; i <= repeats; i++) {
+        LivoloRemote::appendToStream(LivoloRemote::outputBit, pulseLength);
         LivoloRemote::toggleOutput();
     }
 }
 
-void LivoloRemote::appendToSequence(unsigned int bit,
-                                    unsigned int pulseLength) {
-    LivoloRemote::encodedSequence[LivoloRemote::encodedSequenceLength] = bit;
-    LivoloRemote::encodedSequence[LivoloRemote::encodedSequenceLength + 1] =
-        pulseLength;
-    LivoloRemote::encodedSequenceLength += 2;
+void LivoloRemote::appendToStream(byte bit, unsigned short int pulseLength) {
+    LivoloRemote::bitStream[LivoloRemote::bitStreamLength] = bit;
+    LivoloRemote::pulses[LivoloRemote::bitStreamLength] = pulseLength;
+    LivoloRemote::bitStreamLength++;
 }
 
 void LivoloRemote::transmit() {
-    unsigned int output = HIGH;
-    for (int i = 0; i < LivoloRemote::encodedSequenceLength; i += 2) {
-        output = LivoloRemote::encodedSequence[i];
-        digitalWrite(LivoloRemote::pin, output);
-        delayMicroseconds(LivoloRemote::encodedSequence[i + 1]);
+    byte outputBit = HIGH;
+    for (byte i = 0; i < LivoloRemote::bitStreamLength; i++) {
+        outputBit = LivoloRemote::bitStream[i];
+        digitalWrite(LivoloRemote::pin, outputBit);
+        delayMicroseconds(LivoloRemote::pulses[i]);
     }
-    if (output == HIGH) {
+    if (outputBit == HIGH) {
         digitalWrite(LivoloRemote::pin, LOW);
     }
 }

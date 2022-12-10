@@ -24,43 +24,43 @@
 
 class LivoloRemote {
    public:
-    LivoloRemote(unsigned int pin);
-    void send(unsigned int remoteId, unsigned int keyCode,
-              unsigned int repeats = 200);
+    LivoloRemote(byte pin);
+    void send(unsigned short int remoteId, byte keyCode, byte = 150);
 
    private:
-    unsigned int pin;
-    unsigned int output = HIGH;
-    unsigned int shortLength = 162;
-    unsigned int preambleLength = 530;
-    unsigned int longLength = 320;
-    unsigned int encodedSequence[100];
-    unsigned int encodedSequenceLength = 0;
-    void encode(unsigned int bit, bool preamble = false);
-    void appendToSequence(unsigned int bit, unsigned int pulseLength);
+    byte pin;
+    byte outputBit = HIGH;
+    unsigned short int shortPulse = 162;
+    unsigned short int preamblePulse = 530;
+    unsigned short int longPulse = 320;
+    byte bitStream[60];
+    unsigned short int pulses[60];
+    byte bitStreamLength = 0;
+    void encode(byte bit, bool preamble = false);
+    void appendToStream(byte bit, unsigned short int pulseLength);
     void transmit();
     void toggleOutput();
 };
 
 namespace LivoloRemoteKey {
-const int BUTTON_1 = 0;
-const int BUTTON_2 = 96;
-const int BUTTON_3 = 120;
-const int BUTTON_4 = 24;
-const int BUTTON_5 = 108;
-const int BUTTON_6 = 80;
-const int BUTTON_7 = 48;
-const int BUTTON_8 = 12;
-const int BUTTON_9 = 72;
-const int BUTTON_10 = 40;
-const int SCENE_1 = 90;
-const int SCENE_2 = 114;
-const int SCENE_3 = 10;
-const int SCENE_4 = 18;
-const int ALL_OFF = 106;
-const int DIMMER_TOGGLE = 8;
-const int DIMMER_UP = 16;
-const int DIMMER_DOWN = 56;
+const byte BUTTON_1 = 0;
+const byte BUTTON_2 = 96;
+const byte BUTTON_3 = 120;
+const byte BUTTON_4 = 24;
+const byte BUTTON_5 = 108;
+const byte BUTTON_6 = 80;
+const byte BUTTON_7 = 48;
+const byte BUTTON_8 = 12;
+const byte BUTTON_9 = 72;
+const byte BUTTON_10 = 40;
+const byte SCENE_1 = 90;
+const byte SCENE_2 = 114;
+const byte SCENE_3 = 10;
+const byte SCENE_4 = 18;
+const byte ALL_OFF = 106;
+const byte DIMMER_TOGGLE = 8;
+const byte DIMMER_UP = 16;
+const byte DIMMER_DOWN = 56;
 }  // namespace LivoloRemoteKey
 
 #endif

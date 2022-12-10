@@ -13,7 +13,7 @@ and then just sent the remoteId and button code
 ```
 livoloRemote.send(6400, LivoloRemoteKey::BUTTON_5);
 ```
-optionally you can specify the number of repeated commands, by default is 200
+optionally you can specify the number of repeated commands, by default is 150
 ```
 livoloRemote.send(6400, LivoloRemoteKey::BUTTON_5, 50);
 ```

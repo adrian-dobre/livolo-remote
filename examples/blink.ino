@@ -8,7 +8,7 @@ void setup() {}
 void loop() {
     // transmit button 5 using remoteId 6400, every 3 sec
     livoloRemote.send(6400, LivoloRemoteKey::BUTTON_5);
-    // optionally specify the number of command repeats, by default it repeats 200x
+    // optionally specify the number of command repeats, by default it repeats 150x
     // livoloRemote.send(6400, LivoloRemoteKey::BUTTON_5, 50);
     delay(3000);
 }
